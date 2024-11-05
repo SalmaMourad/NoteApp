@@ -2,40 +2,30 @@ class Note {
   final String id;
   String title;
   String description;
+  String? folder; // New field to specify folder name, nullable
 
   Note({
     required this.id,
     required this.title,
     required this.description,
+    this.folder,
   });
 
-  // Convert Note to JSON
   Map<String, dynamic> toJson() {
     return {
       'id': id,
       'title': title,
       'description': description,
+      'folder': folder,
     };
   }
 
-  // Create Note from JSON
   factory Note.fromJson(Map<String, dynamic> json) {
     return Note(
       id: json['id'],
       title: json['title'],
       description: json['description'],
+      folder: json['folder'],
     );
   }
 }
-
-// class Note {
-//   final String id;
-//   String title;
-//   String description;
-
-//   Note({
-//     required this.id,
-//     required this.title,
-//     required this.description,
-//   });
-// }
