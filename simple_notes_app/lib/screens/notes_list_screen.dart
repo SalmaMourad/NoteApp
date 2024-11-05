@@ -85,10 +85,19 @@ class _NotesListScreenState extends State<NotesListScreen> {
               child: Card(
                   color: note.color, // Apply the selected color
                   child: ListTile(
-                    title: Text(note.title),
-                    subtitle: Text(
-                      '${note.description}\nCreated: ${note.dateCreated.toLocal().toString().split(' ')[0]}', // Displaying formatted date
+                    title: Text(note.title,style:TextStyle(fontWeight: FontWeight.bold,fontSize: 18) ,),
+                    subtitle: Column(crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          '${note.description}' // Displaying formatted date
+                       , style:TextStyle(fontSize: 17) ),
+                       //Created:
+                       Text(
+                          '${note.dateCreated.toLocal().toString().split(' ')[0]}', // Displaying formatted date
+                        style:TextStyle(fontSize: 13) ),
+                      ],
                     ),
+                    trailing: IconButton(onPressed: (){notesProvider.deleteNote(note.id);}, icon: Icon(Icons.delete)),
                     onTap: () {
                       Navigator.of(context).push(
                         MaterialPageRoute(

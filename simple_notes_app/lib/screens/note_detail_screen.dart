@@ -35,6 +35,7 @@ class _NoteDetailScreenState extends State<NoteDetailScreen> {
     Colors.red,
     Colors.green,
     Colors.blue,
+    Colors.white,
     Colors.orange,
     Colors.yellow,
     Colors.purple,
@@ -42,11 +43,16 @@ class _NoteDetailScreenState extends State<NoteDetailScreen> {
     Colors.cyan,
     Colors.teal,
     Colors.pink,
+    
   ];
   Widget _buildColorPicker() {
     return Column(
       children: [
-        Text("Choose Color:"),
+        Row(
+          children: [
+            Text(" Choose Color:",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 16),),
+          ],
+        ),
         SizedBox(height: 10),
         Wrap(
           spacing: 10,
@@ -126,41 +132,50 @@ class _NoteDetailScreenState extends State<NoteDetailScreen> {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-            TextField(
+            TextFormField(
               controller: _titleController,
-              decoration: InputDecoration(labelText: 'Title'),
-            ),
-            TextField(
-              controller: _descriptionController,
-              decoration: InputDecoration(labelText: 'Description'),
-              maxLines: 5,
+              decoration: InputDecoration(labelText: 'Title',border: OutlineInputBorder(borderRadius: BorderRadius.circular(20))),
             ),
             SizedBox(height: 20),
-            DropdownButton<String?>(
-              value: _selectedFolder,
-              onChanged: (String? newFolder) {
-                setState(() {
-                  _selectedFolder = newFolder;
-                });
-              },
-              items: [
-                DropdownMenuItem<String?>(
-                  value: null,
-                  child: Text('Main Notes'),
-                ),
-                ...folders.map((folder) => DropdownMenuItem<String?>(
-                      value: folder,
-                      child: Text(folder),
-                    )),
-              ],
-            ),
+           
+            TextFormField(
+              controller: _descriptionController,
+              decoration: InputDecoration(labelText: 'Description',border: OutlineInputBorder(borderRadius: BorderRadius.circular(20))),
+              maxLines: 5,
+            ),            
+            
             SizedBox(height: 20),
             _buildColorPicker(),
             SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: _saveNote,
-              child: Text(widget.note == null ? 'Add Note' : 'Save Changes'),
-            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(children: [SizedBox(width: 25),DropdownButton<String?>(
+                value: _selectedFolder,
+                onChanged: (String? newFolder) {
+                  setState(() {
+                    _selectedFolder = newFolder;
+                  });
+                },
+                items: [
+                  DropdownMenuItem<String?>(
+                    value: null,
+                    child: Text('Main Notes'),
+                  ),
+                  ...folders.map((folder) => DropdownMenuItem<String?>(
+                        value: folder,
+                        child: Text(folder),
+                      )),
+                ],
+              ),
+            SizedBox(width: 50),
+              // Spacer(flex: 1,),
+               ElevatedButton(
+                onPressed: _saveNote,
+                child: Text(widget.note == null ? 'Add Note' : 'Save Changes'),
+              ),],
+              ),
+            )
+           
           ],
         ),
       ),
