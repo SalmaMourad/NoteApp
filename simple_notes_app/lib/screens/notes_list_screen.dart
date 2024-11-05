@@ -25,7 +25,8 @@ class _NotesListScreenState extends State<NotesListScreen> {
             onPressed: () {
               Navigator.of(context).push(
                 MaterialPageRoute(
-                  builder: (context) => NoteDetailScreen(folder: selectedFolder),
+                  builder: (context) =>
+                      NoteDetailScreen(folder: selectedFolder),
                 ),
               );
             },
@@ -54,14 +55,14 @@ class _NotesListScreenState extends State<NotesListScreen> {
               },
             ),
             ...notesProvider.folders.map((folder) => ListTile(
-              title: Text(folder),
-              onTap: () {
-                setState(() {
-                  selectedFolder = folder;
-                });
-                Navigator.of(context).pop();
-              },
-            )),
+                  title: Text(folder),
+                  onTap: () {
+                    setState(() {
+                      selectedFolder = folder;
+                    });
+                    Navigator.of(context).pop();
+                  },
+                )),
           ],
         ),
       ),
@@ -70,29 +71,32 @@ class _NotesListScreenState extends State<NotesListScreen> {
         itemBuilder: (context, index) {
           final note = notes[index];
           return Dismissible(
-            key: ValueKey(note.id),
-            direction: DismissDirection.endToStart,
-            background: Container(
-              color: Colors.red,
-              alignment: Alignment.centerRight,
-              padding: EdgeInsets.only(right: 20),
-              child: Icon(Icons.delete, color: Colors.white),
-            ),
-            onDismissed: (direction) {
-              notesProvider.deleteNote(note.id);
-            },
-            child: ListTile(
-              title: Text(note.title),
-              subtitle: Text(note.description),
-              onTap: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => NoteDetailScreen(note: note),
-                  ),
-                );
+              key: ValueKey(note.id),
+              direction: DismissDirection.endToStart,
+              background: Container(
+                color: Colors.red,
+                alignment: Alignment.centerRight,
+                padding: EdgeInsets.only(right: 20),
+                child: Icon(Icons.delete, color: Colors.white),
+              ),
+              onDismissed: (direction) {
+                notesProvider.deleteNote(note.id);
               },
-            ),
-          );
+              child: Card(
+                  color: note.color, // Apply the selected color
+                  child: ListTile(
+                    title: Text(note.title),
+                    subtitle: Text(
+                      '${note.description}\nCreated: ${note.dateCreated.toLocal().toString().split(' ')[0]}', // Displaying formatted date
+                    ),
+                    onTap: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => NoteDetailScreen(note: note),
+                        ),
+                      );
+                    },
+                  )));
         },
       ),
     );

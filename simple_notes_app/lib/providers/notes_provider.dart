@@ -20,12 +20,16 @@ class NotesProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void updateNote(String id, String title, String description, String? folder) {
+  void updateNote(String id, String title, String description, String? folder,
+      Color selectedColor) {
     final noteIndex = _notes.indexWhere((note) => note.id == id);
     if (noteIndex != -1) {
       _notes[noteIndex].title = title;
       _notes[noteIndex].description = description;
       _notes[noteIndex].folder = folder;
+      _notes[noteIndex].color = selectedColor; // Update color
+      // update the dateCreated
+      // _notes[noteIndex].dateCreated = DateTime.now();
       _saveNotes();
       notifyListeners();
     }
