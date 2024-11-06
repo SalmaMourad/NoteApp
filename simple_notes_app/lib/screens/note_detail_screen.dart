@@ -32,25 +32,32 @@ class _NoteDetailScreenState extends State<NoteDetailScreen> {
   }
 
   List<Color> colorOptions = [
-    Colors.red,
-    Colors.green,
-    Colors.blue,
-    Colors.white,
-    Colors.orange,
-    Colors.yellow,
-    Colors.purple,
-    Colors.brown,
-    Colors.cyan,
-    Colors.teal,
-    Colors.pink,
-    
+    Color.fromARGB(255, 255, 242, 225),
+    Color.fromARGB(255, 255, 191, 94),
+    Color.fromARGB(255, 240, 227, 107),
+    const Color.fromARGB(255, 199, 133, 109),
+    const Color.fromARGB(255, 234, 111, 152),
+    Color.fromARGB(255, 185, 111, 198),
+    Color.fromARGB(255, 203, 82, 73),
+    const Color.fromARGB(255, 113, 180, 115),
+    Color.fromARGB(255, 88, 166, 230),
+    // Colors.white,
+
+    // const Color.fromARGB(255, 95, 174, 184),
+    // Colors.teal,
+    // Color.fromARGB(255, 248, 118, 161),
+
+    // Color.fromARGB(255, 255, 146, 183),
   ];
   Widget _buildColorPicker() {
     return Column(
       children: [
         Row(
           children: [
-            Text(" Choose Color:",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 16),),
+            Text(
+              " Choose Color:",
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+            ),
           ],
         ),
         SizedBox(height: 10),
@@ -125,59 +132,77 @@ class _NoteDetailScreenState extends State<NoteDetailScreen> {
     final folders = Provider.of<NotesProvider>(context).folders;
 
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
+        backgroundColor: Colors.white,
         title: Text(widget.note == null ? 'New Note' : 'Edit Note'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            TextFormField(
-              controller: _titleController,
-              decoration: InputDecoration(labelText: 'Title',border: OutlineInputBorder(borderRadius: BorderRadius.circular(20))),
-            ),
-            SizedBox(height: 20),
-           
-            TextFormField(
-              controller: _descriptionController,
-              decoration: InputDecoration(labelText: 'Description',border: OutlineInputBorder(borderRadius: BorderRadius.circular(20))),
-              maxLines: 5,
-            ),            
-            
-            SizedBox(height: 20),
-            _buildColorPicker(),
-            SizedBox(height: 20),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(children: [SizedBox(width: 25),DropdownButton<String?>(
-                value: _selectedFolder,
-                onChanged: (String? newFolder) {
-                  setState(() {
-                    _selectedFolder = newFolder;
-                  });
-                },
-                items: [
-                  DropdownMenuItem<String?>(
-                    value: null,
-                    child: Text('Main Notes'),
-                  ),
-                  ...folders.map((folder) => DropdownMenuItem<String?>(
-                        value: folder,
-                        child: Text(folder),
-                      )),
-                ],
+        child: ListView(children: [
+          Column(
+            children: [
+              TextFormField(
+                controller: _titleController,
+                decoration: InputDecoration(
+                    labelText: 'Title',
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20))),
               ),
-            SizedBox(width: 50),
-              // Spacer(flex: 1,),
-               ElevatedButton(
-                onPressed: _saveNote,
-                child: Text(widget.note == null ? 'Add Note' : 'Save Changes'),
-              ),],
+              SizedBox(height: 20),
+              TextFormField(
+                controller: _descriptionController,
+                decoration: InputDecoration(
+                    labelText: 'Description',
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20))),
+                maxLines: 5,
               ),
-            )
-           
-          ],
-        ),
+              SizedBox(height: 20),
+              _buildColorPicker(),
+              SizedBox(height: 20),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  children: [
+                    SizedBox(width: 25),
+                    DropdownButton<String?>(
+                      value: _selectedFolder,
+                      onChanged: (String? newFolder) {
+                        setState(() {
+                          _selectedFolder = newFolder;
+                        });
+                      },
+                      items: [
+                        DropdownMenuItem<String?>(
+                          value: null,
+                          child: Text('My Notes'),
+                        ),
+                        ...folders.map((folder) => DropdownMenuItem<String?>(
+                              value: folder,
+                              child: Text(folder),
+                            )),
+                      ],
+                    ),
+                    SizedBox(width: 50),
+                    // Spacer(flex: 1,),
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.white, // Background color
+                        // onPrimary: Colors.white, // Text color
+                      ),
+                      onPressed: _saveNote,
+                      child: Text(
+                        widget.note == null ? 'Add Note' : 'Save Changes',
+                        style: TextStyle(color: Colors.black),
+                      ),
+                    ),
+                  ],
+                ),
+              )
+            ],
+          ),
+        ]),
       ),
     );
   }
