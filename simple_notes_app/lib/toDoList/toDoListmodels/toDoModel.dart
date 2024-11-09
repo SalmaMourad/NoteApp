@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 class TodoListmodel {
   final String id;
   String task;
-  Bool? isDone;
+  String? isDone;
   String? folder;
   DateTime deadline;
   Color priority;

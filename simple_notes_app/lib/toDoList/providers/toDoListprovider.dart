@@ -22,12 +22,12 @@ class ToDoListProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void updateNote(String id, String task, bool? description, String? folder,
+  void updateNote(String id, String task,String description, String? folder,
       Color selectedColor) {
     final noteIndex = _toDo.indexWhere((note) => note.id == id);
     if (noteIndex != -1) {
       _toDo[noteIndex].task = task;
-      _toDo[noteIndex].isDone = description as Bool?;
+      _toDo[noteIndex].isDone = description ;
       _toDo[noteIndex].folder = folder;
       _toDo[noteIndex].priority = selectedColor; // Update color
       // update the dateCreated
