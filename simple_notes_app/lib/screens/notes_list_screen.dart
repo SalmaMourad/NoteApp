@@ -48,6 +48,7 @@ class _NotesListScreenState extends State<NotesListScreen> {
       drawer: Drawer(
         child: ListView(
           children: [
+            SizedBox(height: 10,),
             Card(
               color: Color.fromARGB(255, 253, 248, 242),
               child: ListTile(
