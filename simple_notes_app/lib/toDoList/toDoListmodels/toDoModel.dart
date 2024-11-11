@@ -6,7 +6,7 @@ class TodoListModel {
   bool isDone;
   String? folder;
   DateTime? deadline;
-  Color priority;
+  Color priority; // Priority color for flag icon
 
   TodoListModel({
     required this.id,
@@ -14,7 +14,7 @@ class TodoListModel {
     this.isDone = false, // Default to false if not provided
     this.folder,
     this.deadline,
-    required this.priority,
+    this.priority = Colors.yellow, // Default to yellow if not specified
   });
 
   Map<String, dynamic> toJson() {
@@ -35,10 +35,52 @@ class TodoListModel {
       isDone: json['isDone'] == true, // Convert boolean directly
       folder: json['folder'],
       deadline: json['dateCreated'] != null ? DateTime.parse(json['dateCreated']) : null,
-      priority: Color(json['color'] ?? Colors.yellow.value), // Default color
+      priority: json['color'] != null ? Color(json['color']) : Colors.yellow, // Default color
     );
   }
 }
+
+// import 'package:flutter/material.dart';
+
+// class TodoListModel {
+//   final String id;
+//   String task;
+//   bool isDone;
+//   String? folder;
+//   DateTime? deadline;
+//   Color priority;
+
+//   TodoListModel({
+//     required this.id,
+//     required this.task,
+//     this.isDone = false, // Default to false if not provided
+//     this.folder,
+//     this.deadline,
+//     required this.priority,
+//   });
+
+//   Map<String, dynamic> toJson() {
+//     return {
+//       'id': id,
+//       'title': task,
+//       'isDone': isDone, // Correct field name for isDone
+//       'folder': folder,
+//       'dateCreated': deadline?.toIso8601String(), // Format date to ISO string
+//       'color': priority.value, // Save color as int
+//     };
+//   }
+
+//   factory TodoListModel.fromJson(Map<String, dynamic> json) {
+//     return TodoListModel(
+//       id: json['id'],
+//       task: json['title'],
+//       isDone: json['isDone'] == true, // Convert boolean directly
+//       folder: json['folder'],
+//       deadline: json['dateCreated'] != null ? DateTime.parse(json['dateCreated']) : null,
+//       priority: Color(json['color'] ?? Colors.yellow.value), // Default color
+//     );
+//   }
+// }
 
 // import 'package:flutter/material.dart';
 

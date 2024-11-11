@@ -16,6 +16,8 @@ class ToDoEditScreen extends StatefulWidget {
 
 class _ToDoEditScreenState extends State<ToDoEditScreen> {
   final _titleController = TextEditingController();
+  final TextEditingController _deadlineController = TextEditingController();
+
   String? _selectedFolder;
   Color _selectedColor = Colors.white;
   DateTime? _selectedDeadline;
@@ -34,11 +36,44 @@ class _ToDoEditScreenState extends State<ToDoEditScreen> {
     super.initState();
     _selectedFolder = widget.folder ?? widget.todo?.folder;
     _selectedColor = widget.todo?.priority ?? Colors.white;
-    _isDone = widget.todo?.isDone ?? false; // Initialize isDone from the todo if available
+    _isDone = widget.todo?.isDone ??
+        false; // Initialize isDone from the todo if available
 
     if (widget.todo != null) {
       _titleController.text = widget.todo!.task;
       // No need to handle description since we don't use it for isDone anymore
+    }
+  }
+
+  Future<void> _pickDate() async {
+    DateTime? pickedDate = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime.now(),
+      lastDate: DateTime(2100),
+    );
+
+    if (pickedDate != null) {
+      TimeOfDay? pickedTime = await showTimePicker(
+        context: context,
+        initialTime: TimeOfDay.now(),
+      );
+
+      if (pickedTime != null) {
+        setState(() {
+          _selectedDeadline = DateTime(
+            pickedDate.year,
+            pickedDate.month,
+            pickedDate.day,
+            pickedTime.hour,
+            pickedTime.minute,
+          );
+          _deadlineController.text =
+              'Deadline: ${_selectedDeadline.toString().split(' ')[0]}'; // Display date only
+
+          // _selectedDeadline=widget.todo!.id,;
+        });
+      }
     }
   }
 
@@ -54,7 +89,10 @@ class _ToDoEditScreenState extends State<ToDoEditScreen> {
         title,
         _isDone, // Use _isDone directly for the isDone field
         _selectedFolder,
+
         _selectedColor,
+
+        _selectedDeadline!,
       );
     } else {
       // Create a new note
@@ -97,17 +135,39 @@ class _ToDoEditScreenState extends State<ToDoEditScreen> {
                   ),
                 ),
                 SizedBox(height: 20),
-                // Display the isDone state as a Switch
-                SwitchListTile(
-                  title: Text('Completed'),
-                  value: _isDone,
-                  onChanged: (value) {
-                    setState(() {
-                      _isDone = value;
-                    });
-                  },
+                //                        TextButton(
+                //   onPressed: _pickDate,
+                //   child: Text(
+                //     _selectedDeadline == null
+                //         ? 'Pick a deadline'
+                //         : 'Deadline: ${_selectedDeadline.toString()}',
+                //   ),
+                // ),
+                TextFormField(
+                  controller: _deadlineController,
+                  readOnly: true,
+                  decoration: InputDecoration(
+                    labelText: 'deadline',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                  ),
+                  // decoration: InputDecoration(
+                  //   labelText: 'Pick a deadline',
+                  // ),
+                  onTap: _pickDate,
                 ),
-                SizedBox(height: 20),
+                // Display the isDone state as a Switch
+                // SwitchListTile(
+                //   title: Text('Completed'),
+                //   value: _isDone,
+                //   onChanged: (value) {
+                //     setState(() {
+                //       _isDone = value;
+                //     });
+                //   },
+                // ),
+                // SizedBox(height: 20),
                 _buildColorPicker(),
                 SizedBox(height: 20),
                 Padding(
