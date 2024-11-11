@@ -1,6 +1,8 @@
+
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:simple_notes_app/constants.dart';
 
 void main() {
   SystemChrome.setSystemUIOverlayStyle(
@@ -18,7 +20,7 @@ class CustomizableTimer extends StatefulWidget {
 
 class _CustomizableTimerState extends State<CustomizableTimer> {
   int _timerDuration = 1; // Default duration in minutes
-  String _timerText = '00:00';
+  String _timerText = '1:00';
   int _remainingSeconds = 0;
   bool _isRunning = false;
   bool _showPauseButton = false;
@@ -116,7 +118,7 @@ class _CustomizableTimerState extends State<CustomizableTimer> {
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: Text('Cancel', style: TextStyle(color: Colors.pink)),
+              child: Text('Cancel', style: TextStyle(color: kprimarycolorpink)),
             ),
             TextButton(
               onPressed: () {
@@ -131,7 +133,7 @@ class _CustomizableTimerState extends State<CustomizableTimer> {
                   }
                 }
               },
-              child: Text('OK', style: TextStyle(color: Colors.pink)),
+              child: Text('OK', style: TextStyle(color: kprimarycolorpink)),
             ),
           ],
         );
@@ -163,10 +165,10 @@ class _CustomizableTimerState extends State<CustomizableTimer> {
                         value: _isRunning
                             ? 1 - (_remainingSeconds / (_timerDuration * 60.0))
                             : 0,
-                        backgroundColor: Colors.grey[300],
+                        backgroundColor: Colors.grey[100],
                         valueColor:
-                            AlwaysStoppedAnimation<Color>(Colors.pinkAccent),
-                        strokeWidth: 20,
+                            AlwaysStoppedAnimation<Color>(kprimarycolorpink),
+                        strokeWidth: 10,
                       ),
                     ),
                     GestureDetector(
@@ -185,21 +187,26 @@ class _CustomizableTimerState extends State<CustomizableTimer> {
                 if (!_isRunning && !_showPauseButton && !_showContinueButton)
                   Column(
                     children: [
-                      
-                      Row(mainAxisAlignment: MainAxisAlignment.center,
-                        children: [ ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.pink,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15.0),
-                    ),
-                  ),
-                  onPressed: _showEditTimeDialog,
-                  child: Text('Set Timer', style: TextStyle(color: Colors.white)),
-                ),SizedBox(width: 20,),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.pink,
+                              backgroundColor: kprimarycolorpink,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(15.0),
+                              ),
+                            ),
+                            onPressed: _showEditTimeDialog,
+                            child: Text('Set Timer',
+                                style: TextStyle(color: Colors.white)),
+                          ),
+                          SizedBox(
+                            width: 20,
+                          ),
+                          ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: kprimarycolorpink,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(15.0),
                               ),
@@ -214,54 +221,61 @@ class _CustomizableTimerState extends State<CustomizableTimer> {
                           ),
                         ],
                       ),
-                      
                     ],
                   ),
-                if (_showPauseButton)
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 10),
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.pink,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(15.0),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    if (_showPauseButton)
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 5, vertical: 10),
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: kprimarycolorpink,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(15.0),
+                            ),
+                          ),
+                          onPressed: pauseTimer,
+                          child: Text('Pause',
+                              style: TextStyle(color: Colors.white)),
                         ),
                       ),
-                      onPressed: pauseTimer,
-                      child:
-                          Text('Pause', style: TextStyle(color: Colors.white)),
-                    ),
-                  ),
-                if (_showContinueButton)
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 10),
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.pink,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(15.0),
+                    if (_showContinueButton)
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 5, vertical: 10),
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: kprimarycolorpink,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(15.0),
+                            ),
+                          ),
+                          onPressed: continueTimer,
+                          child: Text('Resume',
+                              style: TextStyle(color: Colors.white)),
                         ),
                       ),
-                      onPressed: continueTimer,
-                      child: Text('Continue',
-                          style: TextStyle(color: Colors.white)),
-                    ),
-                  ),
-                if (_isRunning || _showPauseButton || _showContinueButton)
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 10),
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.pink,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(15.0),
+                    if (_isRunning || _showPauseButton || _showContinueButton)
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 5, vertical: 10),
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: kprimarycolorpink,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(15.0),
+                            ),
+                          ),
+                          onPressed: restartTimer,
+                          child: Text('Cancel',
+                              style: TextStyle(color: Colors.white)),
                         ),
                       ),
-                      onPressed: restartTimer,
-                      child: Text('Cancel Timer',
-                          style: TextStyle(color: Colors.white)),
-                    ),
-                  ),
+                  ],
+                )
               ],
             ),
           ],
