@@ -19,7 +19,7 @@ class _ToDoEditScreenState extends State<ToDoEditScreen> {
   final TextEditingController _deadlineController = TextEditingController();
 
   String? _selectedFolder;
-  Color _selectedColor = Colors.white;
+  Color _selectedColor = Colors.green;
   DateTime? _selectedDeadline;
   bool _isDone = false;
 
@@ -35,7 +35,7 @@ class _ToDoEditScreenState extends State<ToDoEditScreen> {
   void initState() {
     super.initState();
     _selectedFolder = widget.folder ?? widget.todo?.folder;
-    _selectedColor = widget.todo?.priority ?? Colors.white;
+    _selectedColor = widget.todo?.priority ?? Colors.green;
     _isDone = widget.todo?.isDone ??
         false; // Initialize isDone from the todo if available
 
