@@ -1,239 +1,75 @@
-// customizable_stopwatch.dart
-import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:simple_notes_app/constants.dart';
+import 'package:provider/provider.dart';
+import 'package:simple_notes_app/Timer/StopwatchProvider.dart';
 
-class CustomizableStopwatch extends StatefulWidget {
-  @override
-  _CustomizableStopwatchState createState() => _CustomizableStopwatchState();
-}
-
-class _CustomizableStopwatchState extends State<CustomizableStopwatch> {
-  int _elapsedSeconds = 0;
-  bool _isRunning = false;
-  Timer? _stopwatchTimer;
-
-  String get _formattedTime {
-    int minutes = _elapsedSeconds ~/ 60;
-    int seconds = _elapsedSeconds % 60;
-    return '$minutes:${seconds.toString().padLeft(2, '0')}';
-  }
-
-  void startStopwatch() {
-    _stopwatchTimer = Timer.periodic(Duration(seconds: 1), (timer) {
-      setState(() {
-        _elapsedSeconds++;
-      });
-    });
-    setState(() {
-      _isRunning = true;
-    });
-  }
-
-  void stopStopwatch() {
-    _stopwatchTimer?.cancel();
-    setState(() {
-      _isRunning = false;
-    });
-  }
-
-  void resetStopwatch() {
-    stopStopwatch();
-    setState(() {
-      _elapsedSeconds = 0;
-    });
-  }
+class CustomizableStopwatch extends StatelessWidget {
+  const CustomizableStopwatch({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Stack(
-          alignment: Alignment.center,
-          children: [
-            SizedBox(
-              width: 200,
-              height: 200,
-              child: CircularProgressIndicator(
-                value: _isRunning ? _elapsedSeconds / 600 : 0,
-                backgroundColor: Colors.grey[100],
-                valueColor: AlwaysStoppedAnimation<Color>(kprimarycolorpink),
-                strokeWidth: 10,
-              ),
-            ),
-            Text(
-              _formattedTime,
-              style: TextStyle(fontSize: 30, color: Colors.grey),
-            ),
-          ],
-        ),
-        SizedBox(height: 20),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            if (!_isRunning)
+    // Accessing the StopwatchProvider
+    var stopwatchProvider = Provider.of<StopwatchProvider>(context);
+
+    return SingleChildScrollView(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          // Timer display and buttons
+          Text(
+            stopwatchProvider.formatTime(stopwatchProvider.elapsedTime),
+            style: const TextStyle(fontSize: 48, fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(height: 20),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
               ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: kprimarycolorpink,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15.0),
-                  ),
-                ),
-                onPressed: startStopwatch,
-                child: Text('Start', style: TextStyle(color: Colors.white)),
+                onPressed: stopwatchProvider.isRunning
+                    ? null
+                    : stopwatchProvider.startStopwatch,
+                child: const Text("Start"),
               ),
-            if (_isRunning)
+              const SizedBox(width: 20),
               ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: kprimarycolorpink,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15.0),
-                  ),
-                ),
-                onPressed: stopStopwatch,
-                child: Text('Stop', style: TextStyle(color: Colors.white)),
+                onPressed: !stopwatchProvider.isRunning &&
+                        stopwatchProvider.elapsedTime == 0
+                    ? null
+                    : stopwatchProvider.stopStopwatch,
+                child: const Text("Stop"),
               ),
-            SizedBox(width: 10),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: kprimarycolorpink,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(15.0),
-                ),
+              const SizedBox(width: 20),
+              ElevatedButton(
+                onPressed: stopwatchProvider.resetStopwatch,
+                child: const Text("Reset"),
               ),
-              onPressed: resetStopwatch,
-              child: Text('Reset', style: TextStyle(color: Colors.white)),
-            ),
-          ],
-        ),
-      ],
+            ],
+          ),
+          const SizedBox(height: 20),
+          ElevatedButton(
+            onPressed: stopwatchProvider.isRunning
+                ? stopwatchProvider.recordLap
+                : null,
+            child: const Text("Lap"),
+          ),
+          const SizedBox(height: 20),
+
+          // List of laps
+          ListView.builder(
+            shrinkWrap: true, // Allow ListView to take only the necessary space
+            physics:
+                const NeverScrollableScrollPhysics(), // Disable ListView's own scrolling
+            itemCount: stopwatchProvider.laps.length,
+            itemBuilder: (context, index) {
+              return ListTile(
+                title:
+                    Text("Lap ${index + 1}: ${stopwatchProvider.laps[index]}"),
+                subtitle: Text(
+                    "Lap Time: ${stopwatchProvider.lapDifferences[index]}"),
+              );
+            },
+          ),
+        ],
+      ),
     );
   }
-
-  @override
-  void dispose() {
-    _stopwatchTimer?.cancel();
-    super.dispose();
-  }
 }
-
-// // customizable_stopwatch.dart
-// import 'dart:async';
-// import 'package:flutter/material.dart';
-// import 'package:simple_notes_app/constants.dart';
-
-// class CustomizableStopwatch extends StatefulWidget {
-//   @override
-//   _CustomizableStopwatchState createState() => _CustomizableStopwatchState();
-// }
-
-// class _CustomizableStopwatchState extends State<CustomizableStopwatch> {
-//   int _elapsedSeconds = 0;
-//   bool _isRunning = false;
-//   Timer? _stopwatchTimer;
-
-//   String get _formattedTime {
-//     int minutes = _elapsedSeconds ~/ 60;
-//     int seconds = _elapsedSeconds % 60;
-//     return '$minutes:${seconds.toString().padLeft(2, '0')}';
-//   }
-
-//   void startStopwatch() {
-//     _stopwatchTimer = Timer.periodic(Duration(seconds: 1), (timer) {
-//       setState(() {
-//         _elapsedSeconds++;
-//       });
-//     });
-//     setState(() {
-//       _isRunning = true;
-//     });
-//   }
-
-//   void stopStopwatch() {
-//     _stopwatchTimer?.cancel();
-//     setState(() {
-//       _isRunning = false;
-//     });
-//   }
-
-//   void resetStopwatch() {
-//     stopStopwatch();
-//     setState(() {
-//       _elapsedSeconds = 0;
-//     });
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Column(
-//       mainAxisAlignment: MainAxisAlignment.center,
-//       children: [
-//         Stack(
-//           alignment: Alignment.center,
-//           children: [
-//             SizedBox(
-//               width: 200,
-//               height: 200,
-//               child: CircularProgressIndicator(
-//                 value: _isRunning ? _elapsedSeconds / 600 : 0,
-//                 backgroundColor: Colors.grey[100],
-//                 valueColor: AlwaysStoppedAnimation<Color>(kprimarycolorpink),
-//                 strokeWidth: 10,
-//               ),
-//             ),
-//             Text(
-//               _formattedTime,
-//               style: TextStyle(fontSize: 30, color: Colors.grey),
-//             ),
-//           ],
-//         ),
-//         SizedBox(height: 20),
-//         Row(
-//           mainAxisAlignment: MainAxisAlignment.center,
-//           children: [
-//             if (!_isRunning)
-//               ElevatedButton(
-//                 style: ElevatedButton.styleFrom(
-//                   backgroundColor: kprimarycolorpink,
-//                   shape: RoundedRectangleBorder(
-//                     borderRadius: BorderRadius.circular(15.0),
-//                   ),
-//                 ),
-//                 onPressed: startStopwatch,
-//                 child: Text('Start', style: TextStyle(color: Colors.white)),
-//               ),
-//             if (_isRunning)
-//               ElevatedButton(
-//                 style: ElevatedButton.styleFrom(
-//                   backgroundColor: kprimarycolorpink,
-//                   shape: RoundedRectangleBorder(
-//                     borderRadius: BorderRadius.circular(15.0),
-//                   ),
-//                 ),
-//                 onPressed: stopStopwatch,
-//                 child: Text('Stop', style: TextStyle(color: Colors.white)),
-//               ),
-//             SizedBox(width: 10),
-//             ElevatedButton(
-//               style: ElevatedButton.styleFrom(
-//                 backgroundColor: kprimarycolorpink,
-//                 shape: RoundedRectangleBorder(
-//                   borderRadius: BorderRadius.circular(15.0),
-//                 ),
-//               ),
-//               onPressed: resetStopwatch,
-//               child: Text('Reset', style: TextStyle(color: Colors.white)),
-//             ),
-//           ],
-//         ),
-//       ],
-//     );
-//   }
-
-//   @override
-//   void dispose() {
-//     _stopwatchTimer?.cancel();
-//     super.dispose();
-//   }
-// }
