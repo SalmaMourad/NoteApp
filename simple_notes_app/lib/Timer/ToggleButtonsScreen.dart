@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (_) => StopwatchProvider(),
-          child: CustomizableStopwatch(),
+          child: const CustomizableStopwatch(),
         )
       ],
       child: MaterialApp(
@@ -54,7 +54,7 @@ class _ToggleWidgetsScreenState extends State<ToggleWidgetsScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const SizedBox(
-                height: 110,
+                height: 220,
               ),
               ElevatedButton(
                 onPressed: toggleWidgets,
@@ -85,11 +85,11 @@ class _ToggleWidgetsScreenState extends State<ToggleWidgetsScreen> {
             children: [
               const SizedBox(height: 20),
               // Conditional Rendering of Widgets
-              isWidget1Selected ? TimerScreen() : CustomizableStopwatch(),
+              isWidget1Selected ? TimerScreen() : const CustomizableStopwatch(),
             ],
           ),
           const Spacer(
-            flex: 1,
+            flex: 4,
           ),
         ],
       ),

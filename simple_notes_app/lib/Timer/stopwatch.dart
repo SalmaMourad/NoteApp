@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_notes_app/Timer/StopwatchProvider.dart';
+import 'package:simple_notes_app/constants.dart';
 
 class CustomizableStopwatch extends StatelessWidget {
   const CustomizableStopwatch({super.key});
@@ -27,7 +28,10 @@ class CustomizableStopwatch extends StatelessWidget {
                 onPressed: stopwatchProvider.isRunning
                     ? null
                     : stopwatchProvider.startStopwatch,
-                child: const Text("Start"),
+                child: Text(
+                  "Start",
+                  style: TextStyle(color: kprimarycolorpink),
+                ),
               ),
               const SizedBox(width: 20),
               ElevatedButton(
@@ -35,12 +39,18 @@ class CustomizableStopwatch extends StatelessWidget {
                         stopwatchProvider.elapsedTime == 0
                     ? null
                     : stopwatchProvider.stopStopwatch,
-                child: const Text("Stop"),
+                child: Text(
+                  "Stop",
+                  style: TextStyle(color: kprimarycolorpink),
+                ),
               ),
               const SizedBox(width: 20),
               ElevatedButton(
                 onPressed: stopwatchProvider.resetStopwatch,
-                child: const Text("Reset"),
+                child: Text(
+                  "Reset",
+                  style: TextStyle(color: kprimarycolorpink),
+                ),
               ),
             ],
           ),
@@ -49,23 +59,37 @@ class CustomizableStopwatch extends StatelessWidget {
             onPressed: stopwatchProvider.isRunning
                 ? stopwatchProvider.recordLap
                 : null,
-            child: const Text("Lap"),
+            child: Text(
+              "Lap",
+              style: TextStyle(color: kprimarycolorpink),
+            ),
           ),
-          const SizedBox(height: 20),
+          // const SizedBox(height: 10),
 
           // List of laps
           ListView.builder(
             shrinkWrap: true, // Allow ListView to take only the necessary space
             physics:
-                const NeverScrollableScrollPhysics(), // Disable ListView's own scrolling
+                const AlwaysScrollableScrollPhysics(), // Disable ListView's own scrolling
             itemCount: stopwatchProvider.laps.length,
             itemBuilder: (context, index) {
-              return ListTile(
-                title:
-                    Text("Lap ${index + 1}: ${stopwatchProvider.laps[index]}"),
-                subtitle: Text(
-                    "Lap Time: ${stopwatchProvider.lapDifferences[index]}"),
+              return Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                      "Lap ${index + 1}: ${stopwatchProvider.lapDifferences[index]}"),
+                  const SizedBox(
+                    width: 20,
+                  ),
+                  Text("overall time: ${stopwatchProvider.laps[index]}"),
+                ],
               );
+              // ListTile(
+              // title:/
+              // Text("Lap ${index + 1}: ${stopwatchProvider.laps[index]}"),
+              // subtitle: Text(
+              // "Lap Time: ${stopwatchProvider.lapDifferences[index]}"),
+              // );
             },
           ),
         ],

@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:simple_notes_app/constants.dart';
 
 class TimerProvider extends ChangeNotifier {
   int _timerDuration = 1; // Default duration in minutes
@@ -105,8 +106,8 @@ class TimerScreen extends StatelessWidget {
                           (timerProvider.remainingSeconds /
                               (timerProvider.timerDuration * 60.0))
                       : 0,
-                  backgroundColor: Colors.grey[100],
-                  valueColor: const AlwaysStoppedAnimation<Color>(Colors.pink),
+                  backgroundColor: Color.fromARGB(255, 255, 229, 229),
+                  valueColor: AlwaysStoppedAnimation<Color>(kprimarycolorpink),
                   strokeWidth: 10,
                 ),
               ),
@@ -148,7 +149,10 @@ class TimerScreen extends StatelessWidget {
                                   onPressed: () {
                                     Navigator.pop(context);
                                   },
-                                  child: const Text('Cancel'),
+                                  child: Text(
+                                    'Cancel',
+                                    style: TextStyle(color: kprimarycolorpink),
+                                  ),
                                 ),
                                 TextButton(
                                   onPressed: () {
@@ -160,21 +164,30 @@ class TimerScreen extends StatelessWidget {
                                     }
                                     Navigator.pop(context);
                                   },
-                                  child: const Text('OK'),
+                                  child: Text(
+                                    'OK',
+                                    style: TextStyle(color: kprimarycolorpink),
+                                  ),
                                 ),
                               ],
                             );
                           },
                         );
                       },
-                      child: const Text('Set Timer'),
+                      child: Text(
+                        'Set Timer',
+                        style: TextStyle(color: kprimarycolorpink),
+                      ),
                     ),
                     const SizedBox(width: 20),
                     ElevatedButton(
                       onPressed: () {
                         timerProvider.startTimer(timerProvider.timerDuration);
                       },
-                      child: const Text('Start Timer'),
+                      child: Text(
+                        'Start Timer',
+                        style: TextStyle(color: kprimarycolorpink),
+                      ),
                     ),
                   ],
                 ),
@@ -186,19 +199,31 @@ class TimerScreen extends StatelessWidget {
               if (timerProvider.showPauseButton)
                 ElevatedButton(
                   onPressed: timerProvider.pauseTimer,
-                  child: const Text('Pause'),
+                  child: Text(
+                    'Pause',
+                    style: TextStyle(color: kprimarycolorpink),
+                  ),
                 ),
               if (timerProvider.showContinueButton)
                 ElevatedButton(
                   onPressed: timerProvider.continueTimer,
-                  child: const Text('Resume'),
+                  child: Text(
+                    'Resume',
+                    style: TextStyle(color: kprimarycolorpink),
+                  ),
                 ),
+              SizedBox(
+                width: 15,
+              ),
               if (timerProvider.isRunning ||
                   timerProvider.showPauseButton ||
                   timerProvider.showContinueButton)
                 ElevatedButton(
                   onPressed: timerProvider.restartTimer,
-                  child: const Text('Cancel'),
+                  child: Text(
+                    'Cancel',
+                    style: TextStyle(color: kprimarycolorpink),
+                  ),
                 ),
             ],
           ),
