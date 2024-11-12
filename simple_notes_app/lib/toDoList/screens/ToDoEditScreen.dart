@@ -168,7 +168,7 @@ class _ToDoEditScreenState extends State<ToDoEditScreen> {
                 //   },
                 // ),
                 // SizedBox(height: 20),
-                _buildColorPicker(),
+                // _buildColorPicker(),
                 SizedBox(height: 20),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -215,40 +215,40 @@ class _ToDoEditScreenState extends State<ToDoEditScreen> {
     );
   }
 
-  Widget _buildColorPicker() {
-    return Column(
-      children: [
-        Row(
-          children: [
-            Text(
-              "Choose Color:",
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-            ),
-          ],
-        ),
-        SizedBox(height: 10),
-        Wrap(
-          spacing: 10,
-          children: _colors.map((color) {
-            return GestureDetector(
-              onTap: () {
-                setState(() {
-                  _selectedColor = color;
-                });
-              },
-              child: CircleAvatar(
-                radius: 25,
-                backgroundColor: color,
-                child: _selectedColor == color
-                    ? Icon(Icons.check, color: Colors.white)
-                    : Container(),
-              ),
-            );
-          }).toList(),
-        ),
-      ],
-    );
-  }
+  // Widget _buildColorPicker() {
+  //   return Column(
+  //     children: [
+  //       // Row(
+  //       //   children: [
+  //       //     // Text(
+  //       //     //   "Choose Color:",
+  //       //     //   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+  //       //     // ),
+  //       //   ],
+  //       // ),
+  //       // SizedBox(height: 10),
+  //       // Wrap(
+  //       //   spacing: 10,
+  //       //   children: _colors.map((color) {
+  //       //     return GestureDetector(
+  //       //       onTap: () {
+  //       //         setState(() {
+  //       //           _selectedColor = color;
+  //       //         });
+  //       //       },
+  //       //       child: CircleAvatar(
+  //       //         radius: 25,
+  //       //         backgroundColor: color,
+  //       //         child: _selectedColor == color
+  //       //             ? Icon(Icons.check, color: Colors.white)
+  //       //             : Container(),
+  //       //       ),
+  //       //     );
+  //       //   }).toList(),
+  //       // ),
+  //     ],
+  //   );
+  // }
 }
 
 // import 'package:flutter/material.dart';

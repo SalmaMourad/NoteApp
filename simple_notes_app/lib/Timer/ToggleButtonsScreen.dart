@@ -46,7 +46,7 @@ class _ToggleWidgetsScreenState extends State<ToggleWidgetsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return Scaffold(backgroundColor:Colors.white,
       body: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [

@@ -28,7 +28,7 @@ class _ToDoScreenState extends State<ToDoScreen> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
-        title: Text(selectedFolder == null ? 'My Notes' : selectedFolder!),
+        title: Text(selectedFolder == null ? 'My Tasks' : selectedFolder!),
         actions: [
           IconButton(
             icon: const Icon(Icons.add),
